@@ -1,1 +1,202 @@
-<head><script defer src="main.js"></script></head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taski</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  <script defer src="main.js"></script></head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 3h16v18l-8-5-8 5V3z" fill="#e01f2d" />
+          <path
+            d="M8 10.5l2.5 2.5L16 7.5"
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="2"
+          />
+        </svg>
+        <h1 class="brand-name">Todo List</h1>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-btn is-active" data-view="notes">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect
+              x="4"
+              y="3"
+              width="16"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M8 8h8M8 12h8M8 16h5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+          </svg>
+          <span>Notes</span>
+        </button>
+
+        <section class="nav-section">
+          <header class="nav-section-head">
+            <h2 class="nav-section-title">Projects</h2>
+            <button
+              type="button"
+              class="nav-section-toggle"
+              aria-label="Toggle projects"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M6 10l6 5 6-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </header>
+
+          <ul class="project-list">
+            <li class="project is-active">
+              <span class="project-tag">Kay</span>
+              <span class="project-name">Kayode Todo</span>
+              <button
+                type="button"
+                class="project-delete"
+                aria-label="Delete project"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  />
+                </svg>
+              </button>
+            </li>
+            <li class="project">
+              <span class="project-tag is-muted">Unt</span>
+              <span class="project-name">Untitled</span>
+              <button
+                type="button"
+                class="project-delete"
+                aria-label="Delete project"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  />
+                </svg>
+              </button>
+            </li>
+          </ul>
+
+          <button type="button" class="new-project-btn">+ New Project</button>
+        </section>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="content-header">
+        <h2 class="content-title">Kayode Todo</h2>
+        <div class="open-counter">
+          <span class="open-counter-value">01</span>
+          <span class="open-counter-label">Open</span>
+        </div>
+      </header>
+
+      <div class="rule"></div>
+
+      <section class="task-panel">
+        <div class="task-table">
+          <div class="task-table-head">
+            <span class="col-no">No.</span>
+            <span class="col-task">Task</span>
+            <span class="col-date">Date</span>
+            <span class="col-priority">Priority</span>
+            <span class="col-actions"></span>
+          </div>
+
+          <ul class="task-list">
+            <li class="task-row" data-priority="high">
+              <span class="task-index">01</span>
+              <span class="col-check">
+                <input
+                  type="checkbox"
+                  class="task-check"
+                  aria-label="Mark task complete"
+                />
+              </span>
+              <div class="col-task task-main">
+                <h3 class="task-title">Bags</h3>
+                <p class="task-note">Pick them up before noon</p>
+              </div>
+              <div class="col-date task-field">
+                <span class="field-label">Date</span>
+                <span class="field-value is-accent">08/12/2026</span>
+              </div>
+              <div class="col-priority task-field priority-chip">
+                <span class="field-label">Priority</span>
+                <span class="field-value">High</span>
+              </div>
+              <div class="col-actions task-actions">
+                <button type="button" class="icon-btn" aria-label="Details">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <path
+                      d="M12 10v7M12 7.2v.1"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    />
+                  </svg>
+                </button>
+                <button type="button" class="icon-btn" aria-label="Edit task">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M4 20h4L19 9l-4-4L4 16v4z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </button>
+                <button type="button" class="icon-btn" aria-label="Delete task">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <span class="task-flag" aria-hidden="true"></span>
+            </li>
+          </ul>
+        </div>
+
+        <button type="button" class="new-task-btn">+ New Task</button>
+      </section>
+    </main>
+  </body>
+</html>
