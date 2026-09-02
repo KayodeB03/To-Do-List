@@ -1,8 +1,8 @@
-const createTodo = ({
+const todoBlueprint = ({
   title = "",
   description = "",
   dueDate = "",
-  priority = "low",
+  priority = "",
   notes = "",
   completed = false,
 }) => {
@@ -16,4 +16,4 @@ const createTodo = ({
   };
 };
 
-export default createTodo;
+export default todoBlueprint;

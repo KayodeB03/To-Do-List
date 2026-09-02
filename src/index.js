@@ -5,6 +5,7 @@ import "./dom.js";
 import "./projects.js";
 
 import createTodo from "./todo.js";
+import createProject from "./projects.js";
 
 const todo = createTodo({
   title: "Finish portfolio",
@@ -14,3 +15,10 @@ const todo = createTodo({
 });
 
 console.log(todo);
+
+const project = createProject({
+  name: "Personal",
+  todos: [todo],
+});
+
+console.log(project);
