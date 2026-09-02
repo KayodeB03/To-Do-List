@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -20,9 +20,15 @@
       <nav>
         <div class="tasks">
           <h2>Tasks</h2>
-          <button class="is-active">All Tasks<span>12</span></button>
-          <button>Today's Tasks<span>03</span></button>
-          <button>Upcoming Tasks<span>09</span></button>
+          <button class="view-btn" data-view="all">
+            All Tasks<span class="count-all">00</span>
+          </button>
+          <button class="view-btn" data-view="today">
+            Today's Tasks<span class="count-today">00</span>
+          </button>
+          <button class="view-btn" data-view="upcoming">
+            Upcoming Tasks<span class="count-upcoming">00</span>
+          </button>
         </div>
         <div class="projects">
           <h2>Projects</h2>
@@ -34,7 +40,7 @@
 
     <dialog class="project-dialog">
       <form method="dialog" class="project-form">
-        <h2>New Project</h2>
+        <h2 class="project-form-title">New Project</h2>
 
         <label for="project-name">Project Name</label>
         <input
@@ -42,6 +48,7 @@
           id="project-name"
           name="projectName"
           placeholder="Project name"
+          autocomplete="off"
           required
         />
 
@@ -60,33 +67,92 @@
       </form>
     </dialog>
 
+    <dialog class="todo-dialog">
+      <form method="dialog" class="todo-form">
+        <h2 class="todo-form-title">Task</h2>
+
+        <label for="todo-title">Title</label>
+        <input
+          type="text"
+          id="todo-title"
+          name="title"
+          placeholder="Task title"
+          autocomplete="off"
+          required
+        />
+
+        <label for="todo-description">Description</label>
+        <textarea
+          id="todo-description"
+          name="description"
+          placeholder="What is this about?"
+          rows="3"
+        ></textarea>
+
+        <div class="todo-form-row">
+          <div>
+            <label for="todo-due">Due Date</label>
+            <input type="date" id="todo-due" name="dueDate" />
+          </div>
+          <div>
+            <label for="todo-priority">Priority</label>
+            <select id="todo-priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div>
+            <label for="todo-project">Project</label>
+            <select id="todo-project" name="projectId"></select>
+          </div>
+        </div>
+
+        <label for="todo-notes">Notes</label>
+        <textarea
+          id="todo-notes"
+          name="notes"
+          placeholder="Anything else"
+          rows="3"
+        ></textarea>
+
+        <div class="todo-form-actions">
+          <button type="button" class="delete-todo">Delete</button>
+          <div>
+            <button type="button" class="cancel-todo">Cancel</button>
+            <button type="submit" class="save-todo">Save</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
     <main>
       <header class="masthead">
-        <h1>DASHBOARD</h1>
-        <dl class="stats">
-          <div class="projects-stat">
-            <dt>Projects</dt>
-            <dd>00</dd>
+        <h1>All Tasks</h1>
+        <p class="masthead-description"></p>
+        <div class="masthead-bar">
+          <dl class="stats">
+            <div class="projects-stat">
+              <dt>Projects</dt>
+              <dd>00</dd>
+            </div>
+            <div class="done-stat">
+              <dt>Done</dt>
+              <dd>00</dd>
+            </div>
+            <div class="date-stat">
+              <dt>Today's Date</dt>
+              <dd>00 / 00</dd>
+            </div>
+          </dl>
+          <div class="project-actions" hidden>
+            <button class="edit-project" type="button">Edit Project</button>
+            <button class="delete-project" type="button">Delete Project</button>
           </div>
-          <div class="done-stat">
-            <dt>Done</dt>
-            <dd>03</dd>
-          </div>
-          <div class="date-stat">
-            <dt>Today's Date</dt>
-            <dd>08 / 30</dd>
-          </div>
-        </dl>
+        </div>
       </header>
 
-      <form class="composer">
-        <input type="text" placeholder="Add a task" aria-label="New task" />
-        <button type="submit">Add</button>
-      </form>
-
-      <div class="tasks-list">
-        <!-- Tasks will be rendered here -->
-      </div>
+      <div class="tasks-grid"></div>
     </main>
   </body>
 </html>

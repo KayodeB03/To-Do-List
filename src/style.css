@@ -1,9 +1,24 @@
 ﻿:root {
-  --paper: #f4f3f0;
-  --ink: #111111;
+  --bg: #f3f2ee;
+  --surface: #ebeae5;
+  --fg: #101010;
+  --muted: rgba(16, 16, 16, 0.5);
+  --faint: rgba(16, 16, 16, 0.3);
+  --line: rgba(16, 16, 16, 0.12);
+  --line-strong: rgba(16, 16, 16, 0.3);
+  --accent: #101010;
+  --accent-deep: #3a3a3a;
+  --on-accent: #f3f2ee;
+
+  /* Priority: muted tertiaries that sit quietly on the off-white. */
+  --low: #5b7f6c;
+  --medium: #b9902f;
+  --high: #b6432f;
+
   --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
-  --hair: 1px solid var(--ink);
+  --hair: 1px solid var(--line);
   --gutter: clamp(20px, 4vw, 64px);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 *,
@@ -12,21 +27,27 @@
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: light;
+}
+
 body {
   margin: 0;
   display: flex;
   min-height: 100vh;
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: var(--bg);
+  color: var(--fg);
   font-family: var(--font);
-  font-size: 15px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 h1,
 h2,
+p,
 dl,
 dd {
   margin: 0;
@@ -47,42 +68,80 @@ button {
   cursor: pointer;
 }
 
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Two typographic voices: an extended display face and a tracked label. */
+.display,
+.brand-mark,
+.masthead h1,
+.tasks-empty-title,
+.project-form h2,
+.todo-form h2 {
+  font-stretch: 125%;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.label,
+.brand-meta,
+nav h2,
+nav button span,
+.add-project,
+.stats dt,
+.task-index,
+.task-date,
+.task-priority,
+.task-card-add,
+.tasks-empty-btn,
+.project-form label,
+.todo-form label,
+.cancel-project,
+.create-project,
+.cancel-todo,
+.save-todo,
+.delete-todo,
+.edit-project,
+.delete-project {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 /* ================= SIDEBAR ================= */
 
 aside {
   position: sticky;
   top: 0;
   align-self: flex-start;
-  flex: 0 0 clamp(200px, 19vw, 260px);
+  flex: 0 0 clamp(220px, 20vw, 280px);
   height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 56px;
-  padding: var(--gutter) 24px;
+  gap: 48px;
+  padding: 28px 28px 32px;
   border-right: var(--hair);
 }
 
 .brand {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .brand-mark {
-  font-size: 26px;
-  font-weight: 900;
-  letter-spacing: -0.045em;
+  font-size: 15px;
   line-height: 1;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--accent);
 }
 
-.brand-meta,
-nav h2 {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  opacity: 0.4;
+.brand-meta {
+  color: var(--faint);
 }
 
 nav {
@@ -92,40 +151,56 @@ nav {
 }
 
 nav h2 {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: var(--hair);
-  opacity: 0.4;
+  margin-bottom: 10px;
+  color: var(--faint);
 }
 
 nav button {
+  position: relative;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  padding: 5px 0;
-  font-size: 15px;
+  padding: 8px 0 8px 14px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  opacity: 0.5;
-  transition: opacity 0.12s linear;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  transition: color 0.16s var(--ease);
+}
+
+/* Selection is a red hairline in the left gutter. */
+nav button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 2px;
+  background-color: var(--accent);
+  transform: scaleY(0);
+  transition: transform 0.2s var(--ease);
 }
 
 nav button span {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  color: var(--faint);
 }
 
 nav button:hover {
-  opacity: 1;
+  color: var(--fg);
 }
 
-/* Selection is weight, not colour. */
 nav button.is-active {
-  font-weight: 700;
-  opacity: 1;
+  color: var(--fg);
+}
+
+nav button.is-active::before {
+  transform: scaleY(1);
+}
+
+nav button.is-active span {
+  color: var(--accent);
 }
 
 nav .projects-list {
@@ -134,11 +209,14 @@ nav .projects-list {
 }
 
 .add-project {
-  margin-top: 12px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  margin-top: 14px;
+  padding-left: 14px;
+  color: var(--faint);
+  transition: color 0.16s var(--ease);
+}
+
+.add-project:hover {
+  color: var(--accent);
 }
 
 /* ================= MAIN ================= */
@@ -146,307 +224,493 @@ nav .projects-list {
 main {
   flex: 1;
   min-width: 0;
-  padding: var(--gutter);
+  padding: 28px var(--gutter) var(--gutter);
+}
+
+.masthead {
+  padding-top: clamp(40px, 8vw, 120px);
 }
 
 .masthead h1 {
-  font-size: clamp(52px, 9vw, 132px);
-  font-weight: 900;
-  line-height: 0.86;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  font-size: clamp(56px, 10vw, 156px);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  text-wrap: balance;
+}
+
+.masthead-description {
+  max-width: 52ch;
+  margin-top: 24px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.masthead-description:empty {
+  display: none;
+}
+
+.masthead-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: var(--hair);
 }
 
 .stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 48px;
-  margin-top: 28px;
-  padding-top: 14px;
-  border-top: var(--hair);
+  gap: 4px 56px;
 }
 
 .stats dt {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.4;
+  color: var(--faint);
 }
 
 .stats dd {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-/* ---------- composer ---------- */
-
-.composer {
+.project-actions {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: clamp(36px, 6vw, 72px);
-  border-bottom: 2px solid var(--ink);
-}
-
-.composer input {
-  flex: 1;
-  min-width: 0;
-  padding: 10px 0;
-  background: none;
-  border: 0;
-  outline: 0;
-  color: inherit;
-  font-family: inherit;
-  font-size: clamp(20px, 2.6vw, 30px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-}
-
-.composer input::placeholder {
-  color: var(--ink);
-  opacity: 0.25;
-}
-
-.composer button {
   flex: none;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  gap: 28px;
+  padding-bottom: 2px;
 }
 
-.composer button:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
+/* ---------- task rows ---------- */
 
-/* ---------- task list ---------- */
-
-.tasks-list {
-  margin-top: clamp(28px, 5vw, 56px);
+.tasks-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: clamp(40px, 6vw, 80px);
   border-top: var(--hair);
 }
 
-.tasks-list:not(:has(*))::before {
-  content: "Nothing to do";
-  display: block;
-  padding: 40px 0;
-  border-bottom: var(--hair);
-  text-align: center;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.35;
-}
-
-.task {
+/* One row: index | check | title + description | date | priority | remove */
+.task-card {
+  position: relative;
   display: grid;
-  grid-template-columns: 40px 16px minmax(0, 1fr) 84px 72px 24px;
+  grid-template-columns: 36px 14px minmax(0, 1fr) 96px 88px 24px;
+  grid-template-areas:
+    "index check title date priority remove"
+    "index check desc  date priority remove";
   align-items: center;
   column-gap: 20px;
-  padding: 18px 0;
+  row-gap: 3px;
+  padding: 18px 16px 18px 20px;
   border-bottom: var(--hair);
+  background-color: var(--bg);
+  text-align: left;
+  transition: background-color 0.2s var(--ease);
 }
 
-.task-index,
-.task-date,
-.task-priority {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.4;
+.task-card:hover {
+  background-color: var(--surface);
+}
+
+/* The wrappers dom.js emits are flattened so their children sit on the row grid. */
+.task-card-head,
+.task-card-foot {
+  display: contents;
+}
+
+/* Priority edge in the left gutter, coloured per level. */
+.task-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--priority, transparent);
+}
+
+.task-card[data-priority="low"] {
+  --priority: var(--low);
+}
+
+.task-card[data-priority="medium"] {
+  --priority: var(--medium);
+}
+
+.task-card[data-priority="high"] {
+  --priority: var(--high);
+}
+
+.task-index {
+  grid-area: index;
+  color: var(--faint);
 }
 
 .task-check {
-  width: 16px;
-  height: 16px;
+  grid-area: check;
+  width: 14px;
+  height: 14px;
   margin: 0;
   appearance: none;
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   cursor: pointer;
+  transition:
+    border-color 0.16s var(--ease),
+    background-color 0.16s var(--ease);
+}
+
+.task-check:hover {
+  border-color: var(--fg);
 }
 
 .task-check:checked {
-  background-color: var(--ink);
-  box-shadow: inset 0 0 0 3px var(--paper);
+  border-color: var(--accent);
+  background-color: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--bg);
 }
 
 .task-title {
+  grid-area: title;
   display: block;
+  min-width: 0;
   overflow: hidden;
-  font-size: clamp(18px, 2vw, 24px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--fg);
   white-space: nowrap;
   text-overflow: ellipsis;
   cursor: pointer;
 }
 
+.task-title:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .task-description {
-  display: block;
-  margin-top: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0.5;
+  grid-area: desc;
+  overflow: hidden;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .task-description:empty {
   display: none;
 }
 
-/* Urgency is a rule under the label, not a colour. */
-.task-priority[data-level="high"] {
-  font-weight: 700;
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  text-decoration-thickness: 2px;
+.task-date {
+  grid-area: date;
+  color: var(--faint);
+}
+
+.task-date[data-overdue] {
+  color: var(--high);
+}
+
+/* Priority label carries its colour and a dot. */
+.task-priority {
+  grid-area: priority;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--priority, var(--faint));
+}
+
+.task-priority::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--priority, var(--line-strong));
 }
 
 .task-remove {
+  grid-area: remove;
   justify-self: end;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
+  color: var(--faint);
   opacity: 0;
-  transition: opacity 0.12s linear;
+  transition:
+    opacity 0.16s var(--ease),
+    color 0.16s var(--ease);
 }
 
-.task:hover .task-remove,
+.task-card:hover .task-remove,
 .task-remove:focus-visible {
-  opacity: 0.5;
-}
-
-.task-remove:hover {
   opacity: 1;
 }
 
-.task:has(.task-check:checked) {
-  opacity: 0.35;
+.task-remove:hover {
+  color: var(--fg);
 }
 
-.task:has(.task-check:checked) .task-title {
+.task-card.is-done {
+  --priority: var(--line-strong);
+  color: var(--faint);
+}
+
+.task-card.is-done .task-title {
+  color: var(--faint);
   text-decoration: line-through;
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--line-strong);
+}
+
+.task-card.is-done .task-priority,
+.task-card.is-done .task-date {
+  color: var(--faint);
+}
+
+/* Trailing "new task" row */
+.task-card-add {
+  display: flex;
+  justify-content: flex-start;
+  padding: 18px 20px;
+  color: var(--faint);
+  transition:
+    color 0.16s var(--ease),
+    background-color 0.2s var(--ease);
+}
+
+.task-card-add:hover {
+  color: var(--fg);
+  background-color: var(--surface);
+}
+
+/* Empty state fills the grid */
+.tasks-grid.is-empty {
+  display: block;
+  background: none;
+  border: 0;
+  border-top: var(--hair);
+}
+
+.tasks-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: clamp(48px, 8vw, 104px) 0;
+}
+
+.tasks-empty-title {
+  font-size: clamp(28px, 4.5vw, 60px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.tasks-empty-hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tasks-empty-btn {
+  margin-top: 20px;
+  padding: 14px 24px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  transition:
+    background-color 0.16s var(--ease),
+    color 0.16s var(--ease);
+}
+
+.tasks-empty-btn:hover {
+  background-color: var(--fg);
+  color: var(--bg);
 }
 
 /* ================= DIALOG ================= */
 
-.project-dialog {
-  width: min(440px, calc(100vw - 32px));
+.project-dialog,
+.todo-dialog {
+  width: min(460px, calc(100vw - 32px));
   margin: auto;
   padding: 0;
-  background-color: var(--paper);
-  color: var(--ink);
-  border: 2px solid var(--ink);
+  background-color: var(--surface);
+  color: var(--fg);
+  border: var(--hair);
   border-radius: 0;
 }
 
-.project-dialog::backdrop {
-  background-color: rgba(17, 17, 17, 0.6);
+.project-dialog::backdrop,
+.todo-dialog::backdrop {
+  background-color: rgba(16, 16, 16, 0.45);
+  backdrop-filter: blur(4px);
 }
 
-.project-form {
+.project-form,
+.todo-form {
   display: flex;
   flex-direction: column;
-  padding: 28px;
+  padding: 32px;
 }
 
-.project-form h2 {
-  margin-bottom: 24px;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 900;
+.project-form h2,
+.todo-form h2 {
+  margin-bottom: 32px;
+  font-size: clamp(22px, 3vw, 30px);
   line-height: 0.9;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--accent);
 }
 
-.project-form label {
-  margin-bottom: 6px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  opacity: 0.4;
+.project-form label,
+.todo-form label {
+  margin-bottom: 8px;
+  color: var(--faint);
 }
 
 .project-form input,
-.project-form textarea {
-  margin-bottom: 22px;
-  padding: 6px 0;
+.project-form textarea,
+.todo-form input,
+.todo-form textarea,
+.todo-form select {
+  margin-bottom: 24px;
+  padding: 8px 0;
   background: none;
   border: 0;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line-strong);
   border-radius: 0;
   outline: 0;
   color: inherit;
   font-family: inherit;
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: border-color 0.16s var(--ease);
 }
 
-.project-form textarea {
-  font-size: 15px;
-  font-weight: 500;
+.project-form textarea,
+.todo-form textarea {
+  font-size: 14px;
+  font-weight: 400;
   letter-spacing: 0;
-  line-height: 1.5;
+  line-height: 1.55;
   resize: vertical;
 }
 
 .project-form input::placeholder,
-.project-form textarea::placeholder {
-  color: var(--ink);
-  font-weight: 500;
+.project-form textarea::placeholder,
+.todo-form input::placeholder,
+.todo-form textarea::placeholder {
+  color: var(--faint);
+  font-weight: 400;
   letter-spacing: 0;
-  opacity: 0.25;
 }
 
-/* Focus is a thicker rule, not a glow. */
+/* Focus turns the rule red. */
 .project-form input:focus,
-.project-form textarea:focus {
-  border-bottom-width: 4px;
+.project-form textarea:focus,
+.todo-form input:focus,
+.todo-form textarea:focus,
+.todo-form select:focus {
+  border-bottom-color: var(--accent);
+  outline: 0;
 }
 
-.project-form-actions {
+.project-form-actions,
+.todo-form-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 20px;
+  padding-top: 24px;
   border-top: var(--hair);
 }
 
 .cancel-project,
-.create-project {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+.cancel-todo,
+.edit-project {
+  color: var(--muted);
+  transition: color 0.16s var(--ease);
 }
 
-.cancel-project {
-  opacity: 0.45;
+.cancel-project:hover,
+.cancel-todo:hover,
+.edit-project:hover {
+  color: var(--fg);
 }
 
-.cancel-project:hover {
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.delete-todo,
+.delete-project {
+  color: var(--muted);
+  transition: color 0.16s var(--ease);
 }
 
-.create-project {
-  padding: 13px 22px;
-  background-color: var(--ink);
-  color: var(--paper);
+.delete-todo:hover,
+.delete-project:hover {
+  color: var(--accent);
 }
 
-.create-project:hover {
-  opacity: 0.85;
+.create-project,
+.save-todo {
+  padding: 13px 24px;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  transition: background-color 0.16s var(--ease);
+}
+
+.create-project:hover,
+.save-todo:hover {
+  background-color: var(--accent-deep);
+}
+
+.todo-dialog {
+  width: min(580px, calc(100vw - 32px));
+}
+
+.todo-form select {
+  appearance: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.todo-form select option {
+  background-color: var(--surface);
+}
+
+.todo-form input[type="date"] {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.todo-form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.todo-form-row > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.todo-form-row input,
+.todo-form-row select {
+  width: 100%;
+}
+
+.todo-form-actions > div {
+  display: flex;
+  align-items: center;
+  gap: 28px;
 }
 
 /* ================= SMALL SCREENS ================= */
@@ -465,9 +729,19 @@ main {
     border-bottom: var(--hair);
   }
 
-  .task {
-    grid-template-columns: 16px minmax(0, 1fr) 24px;
+  .masthead {
+    padding-top: 24px;
+  }
+
+  .task-card {
+    grid-template-columns: 14px minmax(0, 1fr) 24px;
+    grid-template-areas:
+      "check title    remove"
+      "check desc     remove"
+      "check meta     meta";
+    column-gap: 14px;
     row-gap: 6px;
+    padding-left: 16px;
   }
 
   .task-index {
@@ -476,12 +750,32 @@ main {
 
   .task-date,
   .task-priority {
-    grid-column: 2;
+    grid-area: meta;
+  }
+
+  .task-priority {
+    justify-self: end;
   }
 
   .task-remove {
-    grid-row: 1;
-    grid-column: 3;
-    opacity: 0.5;
+    opacity: 1;
+  }
+
+  .todo-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .masthead-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
