@@ -1,4 +1,7 @@
-const todoBlueprint = ({
+//todo.js
+
+//create todo function
+const createTodo = ({
   title = "",
   description = "",
   dueDate = "",
@@ -16,4 +19,5 @@ const todoBlueprint = ({
   };
 };
 
-export default todoBlueprint;
+//export createTodo function
+export default createTodo;
